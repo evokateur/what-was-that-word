@@ -30,4 +30,4 @@ Exit with `:q` or `:exit`.
 
 Note:
 
-`*txt` files added to the project directory are gitignored.
+`*.txt` files added to the project directory are gitignored.
