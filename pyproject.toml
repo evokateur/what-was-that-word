@@ -3,12 +3,11 @@ name = "what-was-that-word"
 version = "0.1.0"
 description = "Semantic word lookup"
 readme = "README.md"
-requires-python = ">=3.11,<3.13" # <3.13 for mac intel compatibility
+requires-python = ">=3.11"
 dependencies = [
     "hnswlib==0.8.0",
-    "numpy>=1.26.4,<2.0.0", # for torch <2.8 compatibility
     "sentence-transformers==3.0.1",
-    "torch<2.8.0", # for mac intel compatibility
+    "numpy>=1.26.4,<2.0.0", # some Intel Mac compatible thing is compiled against NumPy < 2
 ]
 
 [project.scripts]

@@ -4,31 +4,19 @@ A terminal program that embeds a word list and does semantic search over it.
 
 ## Usage
 
-Install dependencies (uv):
+Install and run (uv):
 
 ```bash
-uv venv
-. .venv/bin/activate
 uv pip install -e .
+uv run what-was-that-word /path/to/wordlist.txt
 ```
 
-Install dependencies (pip):
+Install and run (pip):
 
 ```bash
 python -m venv .venv
 . .venv/bin/activate
 pip install -e .
-```
-
-Run (no venv activate):
-
-```bash
-uv run what-was-that-word /path/to/wordlist.txt
-```
-
-Run (activated venv):
-
-```bash
 what-was-that-word /path/to/wordlist.txt
 ```
 
@@ -42,4 +30,4 @@ Exit with `:q` or `:exit`.
 
 Note:
 
-`*txt` files added to the project directory are gitgnored.
+`*txt` files added to the project directory are gitignored.
