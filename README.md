@@ -1,4 +1,4 @@
-# what-was-that-word
+# What was that word?
 
 A terminal program that embeds a word list and does semantic search over it.
 
