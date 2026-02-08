@@ -1,4 +1,5 @@
 import argparse
+import readline
 from pathlib import Path
 
 import hnswlib
@@ -24,13 +25,29 @@ def build_index(words: list[str], model_name: str) -> tuple[hnswlib.Index, list[
     return index, words
 
 
-def search_loop(index: hnswlib.Index, words: list[str], model_name: str, top_k: int) -> None:
+def search_loop(
+    index: hnswlib.Index, words: list[str], model_name: str, top_k: int
+) -> None:
     model = SentenceTransformer(model_name)
-    print("Ready. Type a word or phrase and press Enter. Use :q or :exit to quit.")
+    quit_commands = {
+        ":q",
+        "q:",
+        ":exit",
+        ".quit",
+        "/quit",
+        "exit()",
+        "quit()",
+        ":quit",
+        "\\q",
+    }
+    print("Ready. Enter a search phrase or send the quit signal.")
 
     while True:
-        query = input("> ").strip()
-        if query in {":q", ":exit"}:
+        try:
+            query = input("> ").strip()
+        except EOFError:
+            break
+        if query in quit_commands:
             break
         if not query:
             continue
@@ -43,10 +60,19 @@ def search_loop(index: hnswlib.Index, words: list[str], model_name: str, top_k: 
         print("\n".join(results))
 
 
+def configure_readline() -> None:
+    readline.set_auto_history(True)
+    readline.set_history_length(1000)
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Semantic word lookup")
-    parser.add_argument("word_list_path", type=Path, help="Path to word list (one per line)")
-    parser.add_argument("--top-k", type=int, default=10, help="Number of results to return")
+    parser.add_argument(
+        "word_list_path", type=Path, help="Path to word list (one per line)"
+    )
+    parser.add_argument(
+        "--top-k", type=int, default=10, help="Number of results to return"
+    )
     parser.add_argument(
         "--model",
         type=str,
@@ -62,6 +88,7 @@ def main() -> None:
     if not words:
         raise ValueError("Word list is empty")
 
+    configure_readline()
     index, words = build_index(words, args.model)
     search_loop(index, words, args.model, args.top_k)
 
