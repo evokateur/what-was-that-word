@@ -4,7 +4,7 @@ A terminal program that embeds a word list and does semantic search over it.
 
 ## What is this for?
 
-I've used it to great effect with the [EFF long word list](https://github.com/redacted/XKCD-password-generator/blob/master/xkcdpass/static/eff-long) to find the word in an XKCD password I'd forgotten.
+I've used it to great effect with the [EFF long word list](https://github.com/redacted/XKCD-password-generator/blob/master/xkcdpass/static/eff-long) to find the one word I'd forgotten in an XKCD password.
 
 ## Usage
 
