@@ -29,35 +29,40 @@ def search_loop(
     index: hnswlib.Index, words: list[str], model_name: str, top_k: int
 ) -> None:
     model = SentenceTransformer(model_name)
-    quit_commands = {
-        ":q",
-        "q:",
-        ":exit",
-        ".quit",
-        "/quit",
-        "exit()",
-        "quit()",
-        ":quit",
-        "\\q",
+    quit_words = {
+        "exit",
+        "halt",
+        "quit",
     }
-    print("Ready. Enter a search phrase or send the quit signal.")
+    print(
+        "Ready to find that word. Enter semantic search term(s) or a command prefixed with '/'"
+    )
 
     while True:
         try:
             query = input("> ").strip()
         except EOFError:
             break
-        if query in quit_commands:
-            break
         if not query:
             continue
+        is_command = query.startswith("/")
+        if is_command:
+            query = query[1:]
 
         query_embedding = model.encode([query], normalize_embeddings=True)
         count = min(top_k, len(words))
         labels, distances = index.knn_query(query_embedding, k=count)
 
         results = [words[label] for label in labels[0]]
-        print("\n".join(results))
+        if is_command:
+            has_quit_word = any(
+                result_word.lower() in quit_words for result_word in results
+            )
+            if has_quit_word:
+                break
+            print(f"I don't know how to {query}.")
+        else:
+            print("\n".join(results))
 
 
 def configure_readline() -> None:

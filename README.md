@@ -26,8 +26,6 @@ Options:
 python main.py /path/to/wordlist.txt --top-k 10 --model all-MiniLM-L6-v2
 ```
 
-Exit with `:q` or `:exit`.
-
 Note:
 
 `*.txt` files added to the project directory are gitignored.
