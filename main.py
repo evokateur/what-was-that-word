@@ -1,6 +1,9 @@
 import argparse
+import inflect
+from inflect import Word
 import readline
 from pathlib import Path
+from typing import cast
 
 import hnswlib
 from sentence_transformers import SentenceTransformer
@@ -29,13 +32,16 @@ def search_loop(
     index: hnswlib.Index, words: list[str], model_name: str, top_k: int
 ) -> None:
     model = SentenceTransformer(model_name)
+    p = inflect.engine()
+    p.defan(cast(Word, "ho.*"))
+    p.defan(cast(Word, "hu.*"))
     quit_words = {
         "exit",
         "halt",
         "quit",
     }
     print(
-        "Ready to find that word. Enter semantic search term(s) or a command prefixed with '/'"
+        "Ready to find that word. Enter semantic search term(s) or '/' followed by a command."
     )
 
     while True:
@@ -59,8 +65,9 @@ def search_loop(
                 result_word.lower() in quit_words for result_word in results
             )
             if has_quit_word:
+                print(f"Doing {p.a(cast(Word, query), 1)}.")
                 break
-            print(f"I don't know how to {query}.")
+            print(f"I don't know how to do {p.a(cast(Word, query), 1)}.")
         else:
             print("\n".join(results))
 

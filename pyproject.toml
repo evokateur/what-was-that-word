@@ -6,8 +6,9 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "hnswlib==0.8.0",
-    "sentence-transformers==3.0.1",
+    "inflect",
     "numpy>=1.26.4,<2.0.0", # some Intel Mac compatible thing is compiled against NumPy < 2
+    "sentence-transformers==3.0.1",
 ]
 
 [project.scripts]
